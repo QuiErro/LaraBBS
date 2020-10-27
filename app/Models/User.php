@@ -121,4 +121,13 @@ class User extends Authenticatable implements MustVerifyEmailContract, JWTSubjec
     {
         return [];
     }
+
+    public function findForPassport($username)
+    {
+        filter_var($username, FILTER_VALIDATE_EMAIL) ?
+          $credentials['email'] = $username :
+          $credentials['phone'] = $username;
+
+        return self::where($credentials)->first();
+    }
 }
